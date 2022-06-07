@@ -4,6 +4,9 @@ from unicodedata import name
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.gzip import GZipMiddleware
+
 
 LEADERBOARD = []
 
@@ -32,7 +35,15 @@ def convert_leaderboard_to_string():
     return leaderboard_str
 
 
-app = FastAPI()
+app = FastAPI(title = "cmd_adventures")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
+app.add_middleware(GZipMiddleware)
 
 
 @app.get("/")
