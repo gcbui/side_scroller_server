@@ -8,6 +8,7 @@ def init_database():
     dotenv.load_dotenv()
     global CONNECTION
     global CURSOR
+
     CONNECTION = psycopg2.connect(host=os.getenv(HOST),port=5432,user=os.getenv(DBUSERNAME),dbname="postgres",password=os.getenv(PASSWORD),sslmode="require")
     print("connection established")
 

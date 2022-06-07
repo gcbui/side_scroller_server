@@ -55,7 +55,8 @@ async def root():
 @app.get("/leaderboard",response_class=HTMLResponse)
 async def leaderboard():
     """home page"""
-    
+    #leaderboard_data = get_leaderboard()
+    #leaderboard_table = LeaderboardUpdateRequest()
     converted_html = '''<!DOCTYPE html>
     
     <html>
@@ -64,7 +65,8 @@ async def leaderboard():
     <h2 title="LEADERBOARD">LEADERBOARD</h2>
 
     <p title="I'm a tooltip">HERE ARE THE STATS: </p>'''
-    converted_html += convert_leaderboard_to_string()
+    #converted_html += convert_leaderboard_to_string()
+    converted_html += str(get_leaderboard())
     return converted_html + """ </body> </html>""" 
 
 def compare(a:LeaderboardUpdateRequest,b:LeaderboardUpdateRequest):
@@ -73,8 +75,10 @@ def compare(a:LeaderboardUpdateRequest,b:LeaderboardUpdateRequest):
 @app.post("/update-leaderboard")
 async def update_leaderboard(leaderboard_update_request:LeaderboardUpdateRequest):
     """home page"""
-    global LEADERBOARD
-    LEADERBOARD.append(leaderboard_update_request)
-    #highest_kills = sorted(LEADERBOARD,cmp=compare)
-    highest_kills = LEADERBOARD.sort(key=lambda x: x.enemies_killed,reverse=True)
-    return {"message": "Welcome to Side Scroller Server"}
+    #global LEADERBOARD
+    #LEADERBOARD.append(leaderboard_update_request)
+    #highest_kills = LEADERBOARD.sort(key=lambda x: x.enemies_killed,reverse=True)
+    
+    message = write_leaderboard(leaderboard_update_request.name,leaderboard_update_request.enemies_killed,leaderboard_update_request.time_completed)
+    return {message}
+
