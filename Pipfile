@@ -8,8 +8,7 @@ requests = "*"
 fastapi = {extras = ["all"], version = "*"}
 uvicorn = "*"
 pydantic = "*"
-psycopg2 = "*"
-python-dotenv = "*"
+gunicorn = "*"
 
 [dev-packages]
 

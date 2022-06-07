@@ -1,20 +1,26 @@
 import psycopg2
 import dotenv
 import os
+from pathlib import Path
+from os.path import join, dirname
+
 
 CONNECTION = None
 CURSOR = None
 def init_database():
-    dotenv.load_dotenv()
+    dotenv_path = join(dirname(__file__), '.env')
+    dotenv.load_dotenv(dotenv_path)
     global CONNECTION
     global CURSOR
-    CONNECTION = psycopg2.connect(host=os.getenv(HOST),port=5432,user=os.getenv(USERNAME),dbname="postgres",password=os.getenv(PASSWORD),sslmode="require")
+    print(os.getenv("HOST"))
+    CONNECTION = psycopg2.connect(host=os.getenv("HOST"),port=5432,user=os.getenv("DBUSERNAME"),dbname="postgres",password=os.getenv("PASSWORD"),sslmode="require")
     print("connection established")
 
     CURSOR=CONNECTION.cursor()
 
 def get_leaderboard():
     try:
+        dotenv.load_dotenv()
         CURSOR.execute(
             """
             select *
@@ -23,8 +29,8 @@ def get_leaderboard():
         )
         results = CURSOR.fetchall()
         return results
-    except:
-        return "Failed to connect"
+    except Exception as ex:
+        return "Failed to connect" + str(ex)
 
 
 def write_leaderboard(name:str,enemies_killed:int,time_completed:int):
