@@ -16,6 +16,7 @@ def init_database():
 
 def get_leaderboard():
     try:
+        dotenv.load_dotenv()
         CURSOR.execute(
             """
             select *
@@ -24,8 +25,8 @@ def get_leaderboard():
         )
         results = CURSOR.fetchall()
         return results
-    except:
-        return "Failed to connect"
+    except Exception as ex:
+        return "Failed to connect" + str(ex)
 
 
 def write_leaderboard(name:str,enemies_killed:int,time_completed:int):

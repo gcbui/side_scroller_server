@@ -6,6 +6,7 @@ from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
+from .db_queries import *
 
 
 LEADERBOARD = []
@@ -34,7 +35,7 @@ def convert_leaderboard_to_string():
         print(leaderboard_str+"ENTERED HERE")
     return leaderboard_str
 
-
+init_database()
 app = FastAPI(title = "cmd_adventures")
 app.add_middleware(
     CORSMiddleware,
