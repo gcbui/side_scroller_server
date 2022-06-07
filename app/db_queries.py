@@ -1,15 +1,19 @@
 import psycopg2
 import dotenv
 import os
+from pathlib import Path
+from os.path import join, dirname
+
 
 CONNECTION = None
 CURSOR = None
 def init_database():
-    dotenv.load_dotenv()
+    dotenv_path = join(dirname(__file__), '.env')
+    dotenv.load_dotenv(dotenv_path)
     global CONNECTION
     global CURSOR
-
-    CONNECTION = psycopg2.connect(host=os.getenv(HOST),port=5432,user=os.getenv(DBUSERNAME),dbname="postgres",password=os.getenv(PASSWORD),sslmode="require")
+    print(os.getenv("HOST"))
+    CONNECTION = psycopg2.connect(host=os.getenv("HOST"),port=5432,user=os.getenv("DBUSERNAME"),dbname="postgres",password=os.getenv("PASSWORD"),sslmode="require")
     print("connection established")
 
     CURSOR=CONNECTION.cursor()

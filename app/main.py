@@ -47,6 +47,7 @@ app.add_middleware(
 app.add_middleware(GZipMiddleware)
 
 
+
 @app.get("/")
 async def root():
     """home page"""
